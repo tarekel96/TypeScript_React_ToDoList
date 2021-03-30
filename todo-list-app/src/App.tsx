@@ -54,6 +54,7 @@ const App = () => {
 								console.log('Success - here are the ToDo rows: ');
 								console.log(rows);
 								// set ToDo list data to React list array
+								// @ts-ignore
 								setList(() => rows);
 								setLoading(() => false);
 							}
@@ -69,13 +70,14 @@ const App = () => {
 
 	// @ts-ignore
 	React.useEffect(() => {
+		// @ts-ignore
 		const fetchAPI = async (setData) => {
 			const data = connectToClearBlade();
 			console.log('DATA: ' + data);
 			setData(() => data);
 		};
 		try {
-			return new Promise((resolve, reject) => {
+			return new Promise((resolve) => {
 				resolve(fetchAPI(setList));
 			});
 		} catch (error) {
@@ -90,37 +92,44 @@ const App = () => {
 		<main>
 			<h1>ClearBlade 2021 UI Intern Project</h1>
 			{list.map((listItem) => (
+				// @ts-ignore
 				<div key={`Div ID#: ${listItem.data.item_id}`}>
 					<Breadcrumb tag="nav" listTag="div">
 						<BreadcrumbItem className="breadCrumItem">
 							<input
 								type="checkbox"
+								// @ts-ignore
 								id={`${listItem.data.item_id}`}
+								// @ts-ignore
 								key={`Input Key#: ${listItem.data.item_id}`}
 								name="Check Off"
 								value="ToDo"
 								// handling deleting the item and updating UI
 								onChange={() => {
-									listItem.destroy((err, result) => {
+									// @ts-ignore
+									listItem.destroy((err) => {
 										if (err) {
 											throw console.log(new Error('Error: Cannot remove item from list'));
 										}
 										else {
 											// init new list
+											// @ts-ignore
 											let newList = [];
 											// populate list with every item that has data
 											for (let i = 0; i < list.length; ++i) {
+												// @ts-ignore
 												if (list[i].data !== undefined) {
 													newList.push(list[i]);
 												}
 											}
 											// update the UI
+											// @ts-ignore
 											setList(() => newList);
 										}
 									});
 								}}
 							/>
-
+							{/* @ts-ignore */}
 							<label key={listItem.data.item_id}>{listItem.data.todo}</label>
 						</BreadcrumbItem>
 					</Breadcrumb>
